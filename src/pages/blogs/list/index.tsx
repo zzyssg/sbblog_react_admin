@@ -21,33 +21,33 @@ const formItem = {
 }
 const columns = [
     {
-        title: 'Index',
+        title: '序号',
         dataIndex: 'index',
         key: 'index',
     },
     {
-        title: 'Title',
+        title: '博客标题',
         dataIndex: 'title',
         key: 'title',
         render: (text: any) => <a>{text}</a>
     },
     {
-        title: 'Type',
+        title: '博客类型',
         dataIndex: 'type',
         key: 'type',
     },
     {
-        title: 'Recommend',
+        title: '推荐',
         dataIndex: 'recommned',
         key: 'recommend',
     },
     {
-        title: 'UpdateTime',
+        title: '更新时间',
         dataIndex: 'updateTime',
         key: 'updateTime'
     },
     {
-        title: 'Action',
+        title: '操作',
         key: 'action',
         render: (text: any, record: any) => (
             <Space>
@@ -157,7 +157,7 @@ const dataSource = [
         recommned: "是",
         updateTime: "2020-02-20",
     },
-    
+
 
 ]
 
@@ -173,68 +173,74 @@ const BlogList = () => {
 
     return (
         <div>
-            <Card
-                title="博客查询"
-                style={{ padding: 0 }}
-                hoverable={true}
-
+            <Card 
+                hoverable = {true}
             >
-                <Form
-                    // {...layout}
-                    name="basic"
-                    initialValues={{
-                        recommend: false,
-                    }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                >
-                    <Row justify="space-between">
-                        <Col span={7}>
-                            <Form.Item
-                                style={formItem}
-                                label="标题"
-                                name="title"
-                            >
-                                <Input placeholder="请输入标题内容" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={7}>
-                            <Form.Item
-                                style={formItem}
-                                label="分类"
-                                name="types"
-                            >
-                                <Search style={{ width: 600 }} />
-                            </Form.Item>
-                        </Col>
-                        <Col span={3}>
-                            <Form.Item
-                                style={formItem}
-                                // {...tailLayout} 
-                                name="recommend" valuePropName="checked">
-                                <Checkbox>推荐</Checkbox>
-                            </Form.Item>
-                        </Col>
+                <Card
+                    title="博客查询"
+                    style={{ padding: 0 }}
+                    hoverable={true}
 
-                        <Col span={4}>
-                            <Form.Item
-                                style={formItem}
-                            // {...tailLayout}
-                            >
-                                <Button type="primary" htmlType="submit" shape="round">
-                                    Submit
+                >
+                    <Form
+                        // {...layout}
+                        name="basic"
+                        initialValues={{
+                            recommend: false,
+                        }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                    >
+                        <Row justify="space-between">
+                            <Col span={7}>
+                                <Form.Item
+                                    style={formItem}
+                                    label="标题"
+                                    name="title"
+                                >
+                                    <Input placeholder="请输入标题内容" />
+                                </Form.Item>
+                            </Col>
+                            <Col span={7}>
+                                <Form.Item
+                                    style={formItem}
+                                    label="分类"
+                                    name="types"
+                                >
+                                    <Search style={{ width: 600 }} />
+                                </Form.Item>
+                            </Col>
+                            <Col span={3}>
+                                <Form.Item
+                                    style={formItem}
+                                    // {...tailLayout} 
+                                    name="recommend" valuePropName="checked">
+                                    <Checkbox>推荐</Checkbox>
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={4}>
+                                <Form.Item
+                                    style={formItem}
+                                // {...tailLayout}
+                                >
+                                    <Button type="primary" htmlType="submit" shape="round">
+                                        Submit
                     </Button>
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                </Form>
-            </Card >
-            <Card>
-                <Table 
-                    bordered = {true}
-                    columns={columns || []}
-                    dataSource={dataSource || []}
-                />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Card >
+                <Card                 
+                    hoverable = {true}
+                >
+                    <Table
+                        bordered={true}
+                        columns={columns || []}
+                        dataSource={dataSource || []}
+                    />
+                </Card>
             </Card>
 
         </div>

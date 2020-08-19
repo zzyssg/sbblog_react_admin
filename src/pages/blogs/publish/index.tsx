@@ -32,6 +32,7 @@ const Publish = () => {
 
     return (
         <Card
+            bordered = {false}
             style={{ padding: 0 }}
             hoverable={true}
         >
@@ -122,11 +123,11 @@ const Publish = () => {
                                 >
                                     <Input.Group compact
                                     >
-                                        <Button type="danger">分类</Button>
+                                        <Button type="danger">标签</Button>
                                         <Select defaultValue="2" style={{ width: "70%" }}>
-                                            <Option value="0">原创</Option>
-                                            <Option value="1">转载</Option>
-                                            <Option value="2">翻译</Option>
+                                            <Option value="0">java</Option>
+                                            <Option value="1">c</Option>
+                                            <Option value="2">Python</Option>
                                         </Select>
                                     </Input.Group>
                                 </Card>
@@ -149,10 +150,10 @@ const Publish = () => {
                         </Input.Group>
                     </Form.Item>
                 </Card>
-                <Card>
+                <Card hoverable={true}>
                     <MyCheckbox />
                 </Card>
-                <Card>
+                <Card hoverable={true}>
                     <Row>
                         <Col span={6}></Col>
                         <Col span={6}></Col>

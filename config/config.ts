@@ -123,7 +123,7 @@ export default defineConfig({
             // type page
             {
               // name: 'types',
-              name: '博客类型',
+              name: '类型',
               icon: 'smile',
               path: '/types',
               routes:[

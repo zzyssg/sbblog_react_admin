@@ -1,10 +1,10 @@
-import { Checkbox, Divider } from 'antd';
+import { Checkbox, Col, Row } from 'antd';
 import React, { useState } from 'react';
 
 const CheckboxGroup = Checkbox.Group;
 
-const plainOptions = ['推荐', '转载声明', '赞赏', "评论"];
-const defaultCheckedList = ['推荐', '转载声明', '赞赏'];
+const plainOptions = ['Apple', 'Pear', 'Orange', "推荐"];
+const defaultCheckedList = ['Apple', 'Pear', 'Orange', "推荐"];
 
 const MyCheckbox = () => {
     const [checkedList, setCheckedList] = useState(defaultCheckedList);
@@ -41,23 +41,30 @@ const MyCheckbox = () => {
 
     return (
         <div>
-            <CheckboxGroup
-                options={plainOptions}
-                value={checkedList}
-                onChange={onChange}
-            />
-            <Divider type="vertical" />
-            <Divider type="vertical" />
-            <Divider type="vertical" />
-            <span className="site-checkbox-all-wrapper">
-                <Checkbox
-                    indeterminate={indeterminate}
-                    onChange={onCheckAllChange}
-                    checked={checkAll}
-                >
-                    全选
+            <Row justify="space-between">
+                <Col span={10}>
+                    <CheckboxGroup
+                        options={plainOptions}
+                        value={checkedList}
+                        onChange={onChange}
+                    />
+                </Col>
+                <Col span={10}>
+                    <span className="site-checkbox-all-wrapper">
+                        <Checkbox
+                            indeterminate={indeterminate}
+                            onChange={onCheckAllChange}
+                            checked={checkAll}
+                        >
+                            全选
                 </Checkbox>
-            </span>
+                    </span>
+
+                </Col>
+                <Col span={10}>
+
+                </Col>
+            </Row>
         </div >
     );
 }
