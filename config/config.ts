@@ -29,7 +29,7 @@ export default defineConfig({
     //blog
     {
       path: '/blog',
-      component: '../layouts/BlankLayout',
+      component: '../layouts/BasicLayout',
       routes: [
         {
           name: 'blog',
@@ -40,30 +40,31 @@ export default defineConfig({
           name: 'aboutme',
           path: '/blog/aboutme',
           component: './blog/aboutme',
+          target : "_blank"
         },
       ],
     },
     //user
-    {
-      path: '/user',
-      component: '../layouts/UserLayout',
-      routes: [
-        {
-          name: 'login',
-          path: '/user/login',
-          component: './user/login',
-        },
-      ],
-    },
+    // {
+    //   path: '/user',
+    //   component: '../layouts/UserLayout',
+    //   routes: [
+    //     {
+    //       name: 'login',
+    //       path: '/user/login',
+    //       component: './user/login',
+    //     },
+    //   ],
+    // },
     //app
     {
       path: '/',
-      component: '../layouts/SecurityLayout',
+      // component: '../layouts/SecurityLayout',
       routes: [
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          authority: ['admin', 'user'],
+          // authority: ['admin', 'user'],
           routes: [
             {
               path: '/',
@@ -96,6 +97,7 @@ export default defineConfig({
               icon: 'table',
               path: '/list',
               component: './ListTableList',
+              hideInMenu : true,
             },
             // blog page
             {
@@ -140,6 +142,7 @@ export default defineConfig({
                   name:'类型发布',
                   icon:'smile',
                   component:'./types/publish',
+                  hideInMenu:true,
                 },
               ]
             },

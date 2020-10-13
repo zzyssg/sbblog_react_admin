@@ -17,6 +17,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { getAuthorityFromRouter } from '@/utils/utils';
+import styles from '@/global.less';
 import logo from '../assets/logo.svg';
 
 const noMatch = (
@@ -61,26 +62,26 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright={`${new Date().getFullYear()} 蚂蚁金服体验技术部出品`}
+    copyright={`${new Date().getFullYear()} 松冈茉优现任正牌男友`}
     links={[
-      {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
-        blankTarget: true,
-      },
+      // {
+      //   key: 'Ant Design Pro',
+      //   title: 'Ant Design Pro',
+      //   href: 'https://pro.ant.design',
+      //   blankTarget: true,
+      // },
       {
         key: 'github',
         title: <GithubOutlined />,
         href: 'https://github.com/ant-design/ant-design-pro',
         blankTarget: true,
       },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
+      // {
+      //   key: 'Ant Design',
+      //   title: 'Ant Design',
+      //   href: 'https://ant.design',
+      //   blankTarget: true,
+      // },
     ]}
   />
 );
@@ -152,13 +153,15 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       }}
       footerRender={() => defaultFooterDom}
       menuDataRender={menuDataRender}
-      rightContentRender={() => <RightContent />}
+      rightContentRender={() => <RightContent 
+        // className={styles}
+      />}
       {...props}
       {...settings}
     >
-      <Authorized authority={authorized!.authority} noMatch={noMatch}>
+      {/* <Authorized authority={authorized!.authority} noMatch={noMatch}> */}
         {children}
-      </Authorized>
+      {/* </Authorized> */}
     </ProLayout>
   );
 };

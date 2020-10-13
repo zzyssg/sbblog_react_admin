@@ -1,7 +1,11 @@
-import React from 'react';
-import { Form, Input, Button, Checkbox, Card, Row, Col, Table, Space } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { connect, Dispatch, history, SelectLang } from 'umi';
+import { BlogsState } from '@/models/blogs';
+import { Form, Input, Button, Checkbox, Card, Row, Col, Table, Space, Modal, Select, message } from 'antd';
 import Search from './components/search';
-import { red, BackgroundColor } from 'chalk';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import styles from './index.less';
+import {Link} from 'react-router-dom';
 // const layout = {
 //     labelCol: {
 //         span: 4,
@@ -19,168 +23,203 @@ import { red, BackgroundColor } from 'chalk';
 const formItem = {
     margin: 0
 }
-const columns = [
-    {
-        title: '序号',
-        dataIndex: 'index',
-        key: 'index',
-    },
-    {
-        title: '博客标题',
-        dataIndex: 'title',
-        key: 'title',
-        render: (text: any) => <a>{text}</a>
-    },
-    {
-        title: '博客类型',
-        dataIndex: 'type',
-        key: 'type',
-    },
-    {
-        title: '推荐',
-        dataIndex: 'recommned',
-        key: 'recommend',
-    },
-    {
-        title: '更新时间',
-        dataIndex: 'updateTime',
-        key: 'updateTime'
-    },
-    {
-        title: '操作',
-        key: 'action',
-        render: (text: any, record: any) => (
-            <Space>
-                <a>编辑{record.title}</a>
-                <a>删除</a>
-            </Space>
 
-        )
+const { confirm } = Modal;
+
+
+
+const BlogList = (props: any) => {
+    const { Option } = Select;
+
+    const { dispatch } = props;
+    const [dataSource, setDataSource] = useState<Object>([]);
+
+    const [blogId, setBlogId] = useState();
+
+    // 删除博客对话框——控制modal显示和确认键的loading
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+    const [deleteModalConformLoading, setDeleteModalConformLoading] = useState(false);
+
+    useEffect(() => {
+        if (dispatch) {
+            dispatch({
+                type: 'blogs/fetch',
+            })
+                .then(
+                    (res: any) => {
+                        //  debugger
+                        console.log(res);
+
+                        setDataSource(res.result || []);
+                    }
+                )
+        }
+
+    }, [])
+
+
+    // 跳至编辑和修改页面
+    const linkToEdit = (record: any) => {
+        // DOTO 携带数据跳转页面
+        // history.push('/blogs/publish');
 
 
     }
-]
-const dataSource = [
-    {
-        key: "1",
-        index: 1,
-        title: '博客1',
-        type: "type1",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "2",
-        index: 2,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "3",
-        index: 3,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "4",
-        index: 4,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "5",
-        index: 5,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "6",
-        index: 6,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "7",
-        index: 7,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "8",
-        index: 8,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "9",
-        index: 9,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "10",
-        index: 10,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "11",
-        index: 11,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
-    {
-        key: "12",
-        index: 12,
-        title: '博客2',
-        type: "type2",
-        recommned: "是",
-        updateTime: "2020-02-20",
-    },
+
+    // 点击确定后显示 是否确认删除对话框
+    const showDeleteModal = (record : any) => {
+        console.log(record.id);
+        setBlogId(record.id)
+        setDeleteModalVisible(true);
+
+    }
+
+    const columns = [
+        {
+            title: '序号',
+            dataIndex: 'index',
+            key: 'index',
+            render: (text: any, record: any, index: number) => `${index + 1}`,
+        },
+        {
+            title: '博客标题',
+            dataIndex: 'title',
+            key: 'title',
+            render: (text: any,record : any) => <Link to={{pathname : '/blogs/publish',blog : record}}>{text}</Link>
+        },
+        {
+            title: '博客类型',
+            dataIndex: 'type',
+            key: 'type',
+            render: (text: any) => {
+                // debugger
+                return text.name;
+            }
+        },
+        {
+            title: '推荐',
+            dataIndex: 'recommend',
+            key: 'recommend',
+            render: (text: any) => {
+                return text ? "是" : "否";
+            }
+        },
+        {
+            title: '更新时间',
+            dataIndex: 'updateTime',
+            key: 'updateTime',
+            render: (text: any) => {
+                const newDate = new Date(text);
+                return newDate.toLocaleString('chinese', { hour12: false });
+            }
+        },
+        {
+            title: '操作',
+            key: 'action',
+            render: (text: any, record: any) => {
+                // debugger
+                return (
+                    <Space>
+                        {/* <a onClick={() => {linkToEdit(record)}}>编辑</a> */}
+                        <Link to={{pathname : '/blogs/publish',blog : record}}>编辑</Link>
+                        {/* <Link to="/blogs/publish?blog=${record}">编辑</Link> */}
+                        <a style={{ color: "red" }} onClick={()=>{showDeleteModal(record)}}>删除</a>
+                    </Space>
+
+                )
+            }
 
 
-]
+        }
+    ]
 
-
-const BlogList = () => {
     const onFinish = (values: any) => {
-        console.log('Success:', values);
+        if (dispatch) {
+            dispatch({
+                type: 'blogs/queryBlogVOsByCondition',
+                payload: values
+            }).then(
+                (res: any) => {
+                    setDataSource(res.result || [])
+                }
+            )
+        }
+
+
+
     };
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
 
+    const deleteBlogCancle = () => {
+        setDeleteModalVisible(false);
+    }
+    const deleteBlogOk = () => {
+        setDeleteModalVisible(true);
+        setDeleteModalConformLoading(true);
+        setTimeout(
+            () => {
+                setDeleteModalVisible(false);
+                setDeleteModalConformLoading(false);
+            }, 500
+        );
+        if (dispatch) {
+            dispatch(
+                {
+                    type: "blogs/deleteBlogById",
+                    payload: {blogId}
+                    
+                }
+            )
+                .then(
+                    (res: any) => {
+                        if (res.retCode === "001") {
+                            // 提示框：删除成功
+                            message.success("删除成功!!!");
+
+                            // TODO 重新刷新表格数据
+                            if (dispatch) {
+                                dispatch({
+                                    type: 'blogs/fetch',
+                                })
+                                    .then(
+                                        (result: any) => {
+                                            //  debugger
+                                            console.log(result);
+                    
+                                            setDataSource(result.result || []);
+                                        }
+                                    )
+                            }
+                        } else {
+                            message.error("删除失败！！！");
+                        }
+                    }
+                )
+
+        }
+    }
+
     return (
-        <div>
-            <Card 
-                hoverable = {true}
+        <div style={{ margin: 0 }}>
+            <Modal
+                title="删除对话框"
+                visible={deleteModalVisible}
+                confirmLoading={deleteModalConformLoading}
+                onOk={deleteBlogOk}
+                onCancel={deleteBlogCancle}
+            >
+                <p>正在进行删除博客的相关操作...</p>
+            </Modal>
+            <Card
+                hoverable
             >
                 <Card
                     title="博客查询"
                     style={{ padding: 0 }}
-                    hoverable={true}
-
+                    hoverable
                 >
                     <Form
                         // {...layout}
@@ -205,18 +244,39 @@ const BlogList = () => {
                                 <Form.Item
                                     style={formItem}
                                     label="分类"
-                                    name="types"
+                                    name="typeId"
                                 >
-                                    <Search style={{ width: 600 }} />
+                                    {/* <Search style={{ width: 600 }} /> */}
+
+                                    <Select
+                                        allowClear
+                                        placeholder="选择分类"
+                                    >
+                                        <Option value="1">日常</Option>
+                                        <Option value="2">历史</Option>
+                                        <Option value="3">哲学</Option>
+                                        <Option value="4">冷知识</Option>
+                                        <Option value="5">科学</Option>
+                                    </Select>
                                 </Form.Item>
                             </Col>
                             <Col span={3}>
                                 <Form.Item
                                     style={formItem}
                                     // {...tailLayout} 
-                                    name="recommend" valuePropName="checked">
-                                    <Checkbox>推荐</Checkbox>
+                                    name="recommend"
+                                    valuePropName="checked"
+                                >
+                                    {/* <Checkbox >推荐</Checkbox> */}
+                                    <Select
+                                        allowClear
+                                        placeholder="是否推荐"
+                                    >
+                                        <Option value="true">推荐</Option>
+                                        <Option value="false">不推荐</Option>
+                                    </Select>
                                 </Form.Item>
+
                             </Col>
 
                             <Col span={4}>
@@ -225,20 +285,20 @@ const BlogList = () => {
                                 // {...tailLayout}
                                 >
                                     <Button type="primary" htmlType="submit" shape="round">
-                                        Submit
-                    </Button>
+                                        查询
+                                    </Button>
                                 </Form.Item>
                             </Col>
                         </Row>
                     </Form>
                 </Card >
-                <Card                 
-                    hoverable = {true}
+                <Card
+                    hoverable
                 >
                     <Table
-                        bordered={true}
-                        columns={columns || []}
-                        dataSource={dataSource || []}
+                        bordered
+                        columns={columns}
+                        dataSource={dataSource}
                     />
                 </Card>
             </Card>
@@ -247,4 +307,7 @@ const BlogList = () => {
     );
 };
 
-export default BlogList;
+export default connect(({ blogs }: BlogsState) => ({
+    blogs,
+}))(BlogList);
+// export default  BlogList;
