@@ -4,7 +4,7 @@ import { Redirect, connect, ConnectProps } from 'umi';
 import { stringify } from 'querystring';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
-import   Welcome  from '@/pages/Welcome';
+import Welcome from '@/pages/Welcome';
 
 interface SecurityLayoutProps extends ConnectProps {
   loading?: boolean;
@@ -28,15 +28,19 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
     if (dispatch) {
       dispatch({
         type: 'user/fetchCurrent',
+        // TODO
+        // 发送请求，验证token——
+        // 假如账户和密码均正确则会返回token，进入欢迎页面
+        // 否则不会返回token，不会进入欢迎页面
       });
     }
   }
 
   render() {
-    // const { isReady } = this.state;
-    // const { children, loading, currentUser } = this.props;
-    // // You can replace it to your authentication rule (such as check token exists)
-    // // 你可以把它替换成你自己的登录认证规则（比如判断 token 是否存在）
+    const { isReady } = this.state;
+    const { children, loading, currentUser } = this.props;
+    // You can replace it to your authentication rule (such as check token exists)
+    // 你可以把它替换成你自己的登录认证规则（比如判断 token 是否存在）
     // const isLogin = currentUser && currentUser.userid;
     // const queryString = stringify({
     //   redirect: window.location.href,
@@ -48,8 +52,8 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
     // if (!isLogin && window.location.pathname !== '/user/login') {
     //   return <Redirect to={`/user/login?${queryString}`} />;
     // }
-    // return children;
-    return {Welcome};
+    return children;
+    // return {Welcome};
   }
 }
 

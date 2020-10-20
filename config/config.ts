@@ -40,31 +40,31 @@ export default defineConfig({
           name: 'aboutme',
           path: '/blog/aboutme',
           component: './blog/aboutme',
-          target : "_blank"
+          target: '_blank',
         },
       ],
     },
     //user
-    // {
-    //   path: '/user',
-    //   component: '../layouts/UserLayout',
-    //   routes: [
-    //     {
-    //       name: 'login',
-    //       path: '/user/login',
-    //       component: './user/login',
-    //     },
-    //   ],
-    // },
+    {
+      path: '/user',
+      component: '../layouts/UserLayout',
+      routes: [
+        {
+          name: 'login',
+          path: '/user/login',
+          component: './user/login',
+        },
+      ],
+    },
     //app
     {
       path: '/',
-      // component: '../layouts/SecurityLayout',
+      component: '../layouts/SecurityLayout',
       routes: [
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          // authority: ['admin', 'user'],
+          authority: ['admin', 'user'],
           routes: [
             {
               path: '/',
@@ -97,77 +97,77 @@ export default defineConfig({
               icon: 'table',
               path: '/list',
               component: './ListTableList',
-              hideInMenu : true,
+              hideInMenu: true,
             },
             // blog page
             {
-              // name: 'blogs',
-              name: '博客',
+              name: 'blogs',
+              // name: '博客',
               icon: 'smile',
               path: '/blogs',
-              routes:[
+              routes: [
                 {
-                  path:'/blogs/list',
-                  // name:'list-page',
-                  name:'博客列表',
-                  icon:'smile',
-                  component:'./blogs/list',
+                  path: '/blogs/list',
+                  name: 'list-page',
+                  // name:'博客列表',
+                  icon: 'smile',
+                  component: './blogs/list',
                 },
                 {
-                  path:'/blogs/publish',
-                  // name:'publish-page',
-                  name:'博客发布',
-                  icon:'smile',
-                  component:'./blogs/publish',
+                  path: '/blogs/publish',
+                  name: 'publish-page',
+                  // name:'博客发布',
+                  icon: 'smile',
+                  component: './blogs/publish',
                 },
-              ]
+              ],
             },
             // type page
             {
-              // name: 'types',
-              name: '类型',
+              name: 'types',
+              // name: '类型',
               icon: 'smile',
               path: '/types',
-              routes:[
+              routes: [
                 {
-                  path:'/types/list',
-                  // name:'typeListPage',
-                  name:'类型列表',
-                  icon:'smile',
-                  component:'./types/list',
+                  path: '/types/list',
+                  name: 'list-page',
+                  // name:'类型列表',
+                  icon: 'smile',
+                  component: './types/list',
                 },
                 {
-                  path:'/types/publish',
-                  // name:'typePublistPage',
-                  name:'类型发布',
-                  icon:'smile',
-                  component:'./types/publish',
-                  hideInMenu:true,
+                  path: '/types/publish',
+                  name: 'publish-page',
+                  // name:'类型发布',
+                  icon: 'smile',
+                  component: './types/publish',
+                  hideInMenu: true,
                 },
-              ]
+              ],
             },
             // tags page
             {
-              // name: 'tags',
-              name: '标签',
+              name: 'tags',
+              // name: '标签',
               icon: 'smile',
               path: '/tags',
-              routes:[
+              routes: [
                 {
-                  path:'/tags/list',
-                  // name:'tagListPage',
-                  name:'标签列表',
-                  icon:'smile',
-                  component:'./tags/list',
+                  path: '/tags/list',
+                  name: 'list-page',
+                  // name:'标签列表',
+                  icon: 'smile',
+                  component: './tags/list',
                 },
                 {
-                  path:'/tags/publish',
-                  // name:'tagPublistPage',
-                  name:'标签发布',
-                  icon:'smile',
-                  component:'./tags/publish',
+                  path: '/tags/publish',
+                  name: 'publish-page',
+                  // name:'标签发布',
+                  icon: 'smile',
+                  component: './tags/publish',
                 },
-              ]
+              ],
             },
             {
               component: './404',

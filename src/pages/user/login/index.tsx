@@ -1,5 +1,5 @@
 import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
-import { Alert, Checkbox } from 'antd';
+import { Alert, Checkbox, message } from 'antd';
 import React, { useState } from 'react';
 import { Link, connect, Dispatch } from 'umi';
 import { StateType } from '@/models/login';
@@ -37,9 +37,18 @@ const Login: React.FC<LoginProps> = (props) => {
 
   const handleSubmit = (values: LoginParamsType) => {
     const { dispatch } = props;
+    sessionStorage.setItem('username', values.username);
+    // sessionStorage.setItem("password",values.password);
     dispatch({
       type: 'login/login',
-      payload: { ...values, type },
+      payload: {
+        ...values,
+        // type
+      },
+    }).then((res: any) => {
+      if (res.retCode === '000') {
+        message.error(res.retMsg);
+      }
     });
   };
   return (
@@ -51,22 +60,22 @@ const Login: React.FC<LoginProps> = (props) => {
           )}
 
           <UserName
-            name="userName"
-            placeholder="用户名: admin or user"
+            name="username"
+            placeholder="请输入用户名"
             rules={[
               {
                 required: true,
-                message: '请输入用户名!',
+                message: '用户名不能为空!',
               },
             ]}
           />
           <Password
             name="password"
-            placeholder="密码: ant.design"
+            placeholder="请输入密码"
             rules={[
               {
                 required: true,
-                message: '请输入密码！',
+                message: '密码不能为空！',
               },
             ]}
           />
