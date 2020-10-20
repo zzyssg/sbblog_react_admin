@@ -49,4 +49,13 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+  'menu.blogs': '博客',
+  'menu.blogs.list-page': '博客列表',
+  'menu.blogs.publish-page': '更新博客',
+  'menu.types': '类型',
+  'menu.types.list-page': '列表',
+  'menu.types.publish-page': '新增',
+  'menu.tags': '标签',
+  'menu.tags.list-page': '列表',
+  'menu.tags.publish-page': '新增',
 };
