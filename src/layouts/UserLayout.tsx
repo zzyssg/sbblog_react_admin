@@ -48,11 +48,11 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
           <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
-                <img alt="logo" className={styles.logo} src={logo} />
+                {/* <img alt="logo" className={styles.logo} src={logo} /> */}
                 <span className={styles.title}>PEACEFUL WORLD</span>
               </Link>
             </div>
-            <div className={styles.desc}>Masami Is Mine AND Gakki Is Also Mine</div>
+            <div className={styles.desc}>MASAMI IS MINE AND GAKKI IS ALSO MINE</div>
           </div>
           {children}
         </div>

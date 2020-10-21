@@ -52,7 +52,8 @@ const Publish = (props: any) => {
         if (res.retCode === '001') {
           message.success('添加成功！！！');
         } else {
-          message.error('添加失败！！！');
+          debugger
+          message.error(res.retMsg);
         }
       });
     }
@@ -63,7 +64,7 @@ const Publish = (props: any) => {
   };
 
   return (
-    <Card bordered={false} style={{ padding: 0 }} hoverable>
+    <Card bordered={false} style={{ padding: 0 }} >
       <Form
         // {...layout}
         name="basic"
@@ -73,7 +74,7 @@ const Publish = (props: any) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
-        <Card style={{ padding: 0, margin: 0 }} hoverable>
+        <Card style={{ padding: 0, margin: 0 }} >
           <Form.Item
             name="id"
             // 若有id则是从编辑页面跳转而来，初始化为相应的blogId值；否则为-1，即不存在
@@ -81,34 +82,72 @@ const Publish = (props: any) => {
           >
             <Input placeholder="我是博客id" hidden />
           </Form.Item>
-          <Form.Item
-            style={{ padding: 0, margin: 0 }}
-            name="title"
-            // label={
-            //     <Select
-            //         style={{ fontWeight: "bolder" }} >
-            //         <Option value="0">原创</Option>
-            //         <Option value="1">转载</Option>
-            //     </Select>
-            // }
-            initialValue={blogMsg && blogMsg.title ? blogMsg.title : ''}
-            rules={[
-              {
-                required: false,
-                message: '标题为空！！！',
-              },
-            ]}
-          >
-            {/* <Input.Group compact
 
-                        > */}
-            <Input placeholder="文章标题" style={{ width: '50%' }} />
-            {/* </Input.Group> */}
-          </Form.Item>
+          <Row justify="space-between">
+            <Col span={11}>
+              <Input.Group compact>
+                <Button type="primary">标题</Button>
+                <Form.Item
+                  style={{ padding: 0, margin: 0, width: "70%" }}
+                  name="title"
+
+                  initialValue={blogMsg && blogMsg.title ? blogMsg.title : ''}
+                  rules={[
+                    {
+                      required: false,
+                      message: '标题为空！！！',
+                    },
+                  ]}
+                >
+                  <Input placeholder="文章标题..." />
+                </Form.Item>
+              </Input.Group>
+            </Col>
+            <Col span={6}>
+              <Input.Group compact>
+                <Button type="danger">分类</Button>
+                <Form.Item
+                  name="typeId"
+                  initialValue={blogMsg && blogMsg.typeId ? blogMsg.typeId.toString() : "0"}
+                  colon={false}
+                  style={{ width: "60%" }}
+                >
+                  <Select >
+                    <Option value="1">日常</Option>
+                    <Option value="2">历史</Option>
+                    <Option value="3">哲学</Option>
+                    <Option value="4">冷知识</Option>
+                    <Option value="5">科学</Option>
+                    <Option value="6">数据结构</Option>
+                    <Option value="7">算法</Option>
+                    <Option value="8">话题</Option>
+                  </Select>
+                </Form.Item>
+              </Input.Group>
+            </Col>
+            <Col span={6}>
+              <Input.Group compact
+              >
+                <Button type="danger">标签</Button>
+                <Form.Item
+                  // name="tagId"
+                  initialValue="c"
+                  colon={false}
+                  style={{ width: "60%" }}
+                >
+                  <Select>
+                    <Option value="0">java</Option>
+                    <Option value="1">c</Option>
+                    <Option value="2">Python</Option>
+                  </Select>
+                </Form.Item>
+              </Input.Group>
+            </Col>
+          </Row>
         </Card>
 
         {/* 富文本编辑器 */}
-        <Card hoverable>
+        <Card >
           <Form.Item
             name="content"
             initialValue={
@@ -125,93 +164,7 @@ const Publish = (props: any) => {
             <BraftEditor value={editorState} onChange={handleEditorChange} onSave={submitContent} />
           </Form.Item>
         </Card>
-
-        <Card hoverable>
-          {/* <Form.Item
-                        style={{ margin: 0 }}
-                    // {...tailLayout} 
-                    > */}
-          <Row justify="space-between">
-            <Col span={12}>
-              <Card bordered={false} hoverable>
-                {/* <Input.Group compact
-                                    > */}
-                <Form.Item
-                  name="typeId"
-                  initialValue={blogMsg && blogMsg.typeId ? blogMsg.typeId.toString() : '0'}
-                  // initialValue="0"
-                  label={<Button type="primary">分类</Button>}
-                  colon={false}
-                >
-                  <Select style={{ width: '50%' }}>
-                    <Option value="1">日常</Option>
-                    <Option value="2">历史</Option>
-                    <Option value="3">哲学</Option>
-                    <Option value="4">冷知识</Option>
-                    <Option value="5">科学</Option>
-                    <Option value="6">数据结构</Option>
-                    <Option value="7">算法</Option>
-                    <Option value="8">话题</Option>
-                  </Select>
-                </Form.Item>
-                {/* </Input.Group> */}
-              </Card>
-            </Col>
-            <Col span={12}>
-              <Card bordered={false} hoverable>
-                <Form.Item
-                  // name="tagId"
-                  initialValue="2"
-                  label={<Button type="danger">标签</Button>}
-                  colon={false}
-                >
-                  {/* <Input.Group compact
-                                        > */}
-                  <Select style={{ width: '50%' }}>
-                    <Option value="0">java</Option>
-                    <Option value="1">c</Option>
-                    <Option value="2">Python</Option>
-                  </Select>
-                  {/* </Input.Group> */}
-                </Form.Item>
-              </Card>
-            </Col>
-          </Row>
-          {/* </Form.Item> */}
-        </Card>
-        <Card hoverable>
-          <Input.Group compact>
-            <Button type="primary" htmlType="submit">
-              首图
-            </Button>
-            <Form.Item
-              // style={{ margin: 0 }}
-              // className={styles.publishCard}
-              name="firstPicture"
-              initialValue={blogMsg && blogMsg.firstPicture ? blogMsg.firstPicture : '0'}
-              // {...tailLayout}
-            >
-              <Input placeholder="首图地址" />
-            </Form.Item>
-          </Input.Group>
-        </Card>
-        <Card hoverable>
-          <Form.Item
-            // name="sharement"
-            label={<Button type="danger">分享</Button>}
-            colon={false}
-            name="sharement"
-            initialValue={blogMsg && blogMsg.sharement ? 'true' : 'false'}
-            className={styles.publishCard}
-          >
-            <Select>
-              <Option value="false">不可分享</Option>
-              <Option value="true">分享</Option>
-            </Select>
-            {/* <MyCheckbox value="111" /> */}
-          </Form.Item>
-        </Card>
-        <Card hoverable>
+        <Card >
           <Form.Item
             name="description"
             label="简介"
@@ -220,9 +173,46 @@ const Publish = (props: any) => {
             <Input.TextArea />
           </Form.Item>
         </Card>
-        <Card hoverable>
+        <Card>
+          <Row justify="space-between">
+            <Col span={18}>
+              <Input.Group compact>
+                <Button type="primary" htmlType="submit">
+                  首图
+            </Button>
+                <Form.Item
+                  name="firstPicture"
+                  style={{ width: "80%" }}
+                  initialValue={blogMsg && blogMsg.firstPicture ? blogMsg.firstPicture : 'https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3501337130,1924171143&fm=26&gp=0.jpg'}
+                >
+                  <Input placeholder="首图地址" />
+                </Form.Item>
+              </Input.Group>
+            </Col>
+            <Col span={6}>
+              <Input.Group compact>
+                <Button type="danger">分享</Button>
+                <Form.Item
+                  // name="sharement"
+                  colon={false}
+                  name="sharement"
+                  initialValue={blogMsg && blogMsg.sharement ? 'true' : 'false'}
+                  className={styles.publishCard}
+                  style={{ width: "50%" }}
+                >
+                  <Select>
+                    <Option value="false">不可分享</Option>
+                    <Option value="true">分享</Option>
+                  </Select>
+                  {/* <MyCheckbox value="111" /> */}
+                </Form.Item>
+              </Input.Group>
+            </Col>
+          </Row>
+        </Card>
+        <Card >
           <Row>
-            <Col span={6} offset={18}>
+            <Col span={6} offset={9}>
               <Form.Item>
                 <Row justify="space-between">
                   <Col span={7}>
