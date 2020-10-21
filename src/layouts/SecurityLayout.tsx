@@ -28,10 +28,6 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
     if (dispatch) {
       dispatch({
         type: 'user/fetchCurrent',
-        // TODO
-        // 发送请求，验证token——
-        // 假如账户和密码均正确则会返回token，进入欢迎页面
-        // 否则不会返回token，不会进入欢迎页面
       });
     }
   }
@@ -52,6 +48,9 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
     // if (!isLogin && window.location.pathname !== '/user/login') {
     //   return <Redirect to={`/user/login?${queryString}`} />;
     // }
+    if(!sessionStorage.getItem('nickname')){
+      return <Redirect to='/user/login?' />;
+    }
     return children;
     // return {Welcome};
   }
