@@ -66,6 +66,7 @@ const Model: LoginModelType = {
       const { redirect } = getPageQuery();
       // Note: There may be security issues, please note
       // 清除sessionStorage
+      sessionStorage.clear();
 
       if (window.location.pathname !== '/user/login' && !redirect) {
         history.replace({

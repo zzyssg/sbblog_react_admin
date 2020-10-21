@@ -64,24 +64,12 @@ const defaultFooterDom = (
   <DefaultFooter
     copyright={`${new Date().getFullYear()} 松冈茉优现任正牌男友`}
     links={[
-      // {
-      //   key: 'Ant Design Pro',
-      //   title: 'Ant Design Pro',
-      //   href: 'https://pro.ant.design',
-      //   blankTarget: true,
-      // },
       {
         key: 'github',
         title: <GithubOutlined />,
         href: 'https://github.com/ant-design/ant-design-pro',
         blankTarget: true,
       },
-      // {
-      //   key: 'Ant Design',
-      //   title: 'Ant Design',
-      //   href: 'https://ant.design',
-      //   blankTarget: true,
-      // },
     ]}
   />
 );
@@ -126,7 +114,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   return (
     <ProLayout
-      logo={logo}
+      logo="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2986381877,2858087338&fm=26&gp=0.jpg"
       formatMessage={formatMessage}
       onCollapse={handleMenuCollapse}
       onMenuHeaderClick={() => history.push('/')}

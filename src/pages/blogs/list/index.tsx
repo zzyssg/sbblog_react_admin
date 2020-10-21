@@ -214,12 +214,12 @@ const BlogList = (props: any) => {
                 <p>正在进行删除博客的相关操作...</p>
             </Modal>
             <Card
-                hoverable
+                hoverable={false}
             >
                 <Card
                     title="博客查询"
                     style={{ padding: 0 }}
-                    hoverable
+                    hoverable={false}
                 >
                     <Form
                         // {...layout}
@@ -293,7 +293,7 @@ const BlogList = (props: any) => {
                     </Form>
                 </Card >
                 <Card
-                    hoverable
+                    hoverable={false}
                 >
                     <Table
                         bordered
