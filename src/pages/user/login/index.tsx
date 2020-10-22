@@ -34,6 +34,7 @@ const Login: React.FC<LoginProps> = (props) => {
   const { status, type: loginType } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState<string>('account');
+  const [errMag, setErrMsg] = useState();
 
   const handleSubmit = (values: LoginParamsType) => {
     const { dispatch } = props;
@@ -48,13 +49,15 @@ const Login: React.FC<LoginProps> = (props) => {
     }).then((res: any) => {
       if (res.retCode === '000') {
         message.error(res.retMsg);
+        setErrMsg(res.retMsg);
       }
     });
   };
   return (
     <div className={styles.main}>
       <LoginForm activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-        <Tab key="account"
+        <Tab
+          key="account"
           // tab="账户密码登录"
         >
           {status === 'error' && loginType === 'account' && !submitting && (

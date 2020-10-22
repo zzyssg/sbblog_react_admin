@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Tag, Space, Card, message, Form, Input, Button, Row, Col } from 'antd';
+import { Table, Tag, Space, Card, message, Form, Input, Button, Row, Col, Modal } from 'antd';
 import { connect } from 'umi';
 import { connectState } from '@/models/connect';
+import types from '@/models/types';
 // import {TypesState} from '@/models/types';
 
 const TypeList = (props: any) => {
   const { dispatch } = props;
   const [data, setData] = useState([]);
+
+  const [typeId, setTypeId] = useState();
+  // 删除博客对话框——控制modal显示和确认键的loading
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [deleteModalConformLoading, setDeleteModalConformLoading] = useState(false);
+
+  // 点击确定后显示 是否确认删除对话框
+  const showDeleteModal = (record: any) => {
+    debugger;
+    console.log(record.tyId);
+    setTypeId(record.typeId);
+    setDeleteModalVisible(true);
+  };
+
   const columns = [
     {
       title: '序号',
@@ -29,7 +44,8 @@ const TypeList = (props: any) => {
             <a
               style={{ color: 'red' }}
               onClick={() => {
-                onDelete(record);
+                // onDelete(record);
+                showDeleteModal(record);
               }}
             >
               删除
@@ -51,7 +67,6 @@ const TypeList = (props: any) => {
         payload: {},
       }).then((res: any) => {
         if (res.retCode === '001') {
-          message.success('查询types success!!!');
           const tempData1 = res.result;
           const tempData2 = tempData1.map((dataElement: any, idx: any) => {
             const tem = {
@@ -70,7 +85,18 @@ const TypeList = (props: any) => {
     }
   }, []);
 
-  const onDelete = ({ typeId }) => {
+  const deleteBlogCancle = () => {
+    setDeleteModalVisible(false);
+  };
+
+  const deleteBlogOk = () => {
+    setDeleteModalVisible(true);
+    setDeleteModalConformLoading(true);
+    setTimeout(() => {
+      setDeleteModalVisible(false);
+      setDeleteModalConformLoading(false);
+    }, 500);
+
     // 根据 typeId 调用type的deleteTypeByTypeId
     if (dispatch) {
       dispatch({
@@ -143,7 +169,7 @@ const TypeList = (props: any) => {
             }
             message.success('添加成功！！！');
           } else {
-            message.error('添加失败！！！');
+            message.error(res.retMsg);
           }
         },
       );
@@ -152,6 +178,15 @@ const TypeList = (props: any) => {
 
   return (
     <div>
+      <Modal
+        title="删除对话框"
+        visible={deleteModalVisible}
+        confirmLoading={deleteModalConformLoading}
+        onOk={deleteBlogOk}
+        onCancel={deleteBlogCancle}
+      >
+        <p>删除类型后，此类型下的所有博客也将删除，若继续请点击【确定】</p>
+      </Modal>
       <Card>
         <Form name="basic" onFinish={onFinish}>
           <Row>
