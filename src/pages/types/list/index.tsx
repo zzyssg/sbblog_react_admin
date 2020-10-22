@@ -16,12 +16,11 @@ const TypeList = (props: any) => {
 
   // 点击确定后显示 是否确认删除对话框
   const showDeleteModal = (record: any) => {
-    debugger
+    debugger;
     console.log(record.tyId);
-    setTypeId(record.typeId)
+    setTypeId(record.typeId);
     setDeleteModalVisible(true);
-
-  }
+  };
 
   const columns = [
     {
@@ -86,22 +85,17 @@ const TypeList = (props: any) => {
     }
   }, []);
 
-
-
-
   const deleteBlogCancle = () => {
     setDeleteModalVisible(false);
-  }
+  };
 
   const deleteBlogOk = () => {
     setDeleteModalVisible(true);
     setDeleteModalConformLoading(true);
-    setTimeout(
-        () => {
-            setDeleteModalVisible(false);
-            setDeleteModalConformLoading(false);
-        }, 500
-    );
+    setTimeout(() => {
+      setDeleteModalVisible(false);
+      setDeleteModalConformLoading(false);
+    }, 500);
 
     // 根据 typeId 调用type的deleteTypeByTypeId
     if (dispatch) {
