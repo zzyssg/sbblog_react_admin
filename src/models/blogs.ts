@@ -1,4 +1,4 @@
-import {queryAllBlogVOs,queryBlogList, addBlog, queryBlogVOsByCondition, deleteBlogById, queryBlogsByYear} from '@/services/blogs';
+import {queryAllBlogVOs,queryBlogList, addBlog, queryBlogVOsByCondition, deleteBlogById, queryBlogsByYear, queryTypesAndTags} from '@/services/blogs';
 
 const blogs = {
     namespace: 'blogs',
@@ -28,6 +28,10 @@ const blogs = {
         },
         *queryBlogsByYear({payload} : any,{call} : any){
             const response = yield call(queryBlogsByYear,payload);
+            return response;
+        },
+        *queryTypesAndTags({payload} : any,{call} : any){
+            const response = yield call(queryTypesAndTags,payload);
             return response;
         },
     },

@@ -5,6 +5,8 @@ import 'braft-editor/dist/index.css';
 import { connect } from 'umi';
 import { BlogsState } from '@/models/blogs';
 import styles from './publish.less';
+import { queryTypesAndTags } from '@/services/blogs';
+import { set } from 'lodash';
 
 const { Option } = Select;
 
@@ -12,15 +14,30 @@ const Publish = (props: any) => {
   // 编辑器state
   const [editorState, setEditorState] = useState(BraftEditor.createEditorState(null));
 
+  const [types,setTypes] = useState<[]>();
+
   const { dispatch } = props;
 
   const blogMsg = props.location.blog;
 
-  // useEffect(() => {
-  //     console.log("props");
-  //     console.log(props);
-
-  // }, [])
+  useEffect(() => {
+      // 查询页面需要预加载的信息：types、tags
+      dispatch(
+        {
+          type : 'blogs/queryTypesAndTags',
+        }
+      )
+      .then(
+        (res : any) => {
+          if(res.retCode === "001"){
+            message.success(res.retMsg);
+            setTypes(res.result.types || []);
+          }else{
+            message.error(res.retMsg);
+          }
+        }
+      )
+  }, [])
 
   const submitContent = () => {
     // 编辑器按下保存快捷键时执行，提交到服务端前，使用toHTML
@@ -34,6 +51,8 @@ const Publish = (props: any) => {
   };
 
   const getRequestBody = (values: any) => {
+    // 判断是否选择了type，未选择的话默认为数据库中第一个type
+    values.typeId = (values.typeId === "") ? types[0].id : values.typeId;
     // 将得到的editState数据转化为htmlContent
     values.content = values.content.toHTML();
     console.log('htmlContent:', values.content);
@@ -52,7 +71,6 @@ const Publish = (props: any) => {
         if (res.retCode === '001') {
           message.success('添加成功！！！');
         } else {
-          debugger
           message.error(res.retMsg);
         }
       });
@@ -94,7 +112,7 @@ const Publish = (props: any) => {
                   initialValue={blogMsg && blogMsg.title ? blogMsg.title : ''}
                   rules={[
                     {
-                      required: false,
+                      required: true,
                       message: '标题为空！！！',
                     },
                   ]}
@@ -108,19 +126,22 @@ const Publish = (props: any) => {
                 <Button type="danger">分类</Button>
                 <Form.Item
                   name="typeId"
-                  initialValue={blogMsg && blogMsg.typeId ? blogMsg.typeId.toString() : "0"}
+                  initialValue={blogMsg && blogMsg.typeId ? blogMsg.typeId : ""}
                   colon={false}
                   style={{ width: "60%" }}
                 >
                   <Select >
-                    <Option value="1">日常</Option>
-                    <Option value="2">历史</Option>
-                    <Option value="3">哲学</Option>
-                    <Option value="4">冷知识</Option>
-                    <Option value="5">科学</Option>
-                    <Option value="6">数据结构</Option>
-                    <Option value="7">算法</Option>
-                    <Option value="8">话题</Option>
+                    {
+                      types && types.map(
+
+                        (type : any) => (
+
+                          <Option value={type.id}>
+                            {type.name}
+                          </Option>
+                          )
+                      )
+                    }
                   </Select>
                 </Form.Item>
               </Input.Group>

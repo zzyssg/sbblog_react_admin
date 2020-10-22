@@ -6,20 +6,7 @@ import Search from './components/search';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import {Link} from 'react-router-dom';
-// const layout = {
-//     labelCol: {
-//         span: 4,
-//     },
-//     wrapperCol: {
-//         span: 8,
-//     },
-// };
-// const tailLayout = {
-//     wrapperCol: {
-//         // offset: 4,
-//         span: 8,
-//     },
-// };
+
 const formItem = {
     margin: 0
 }

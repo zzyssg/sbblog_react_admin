@@ -7,7 +7,6 @@ export async function queryAllBlogVOs(params: any) {
             ...params
         }
     });
-
 }
 
 export async function queryBlogList(params: any) {
@@ -17,7 +16,6 @@ export async function queryBlogList(params: any) {
             ...params
         }
     });
-
 }
 
 export async function addBlog(params: any) {
@@ -27,7 +25,6 @@ export async function addBlog(params: any) {
             ...params
         }
     });
-
 }
 
 export async function queryBlogVOsByCondition(params: any) {
@@ -37,23 +34,25 @@ export async function queryBlogVOsByCondition(params: any) {
             ...params
         }
     });
-
 }
 
 export async function deleteBlogById(params: any) {
     return request('/app/blogs/deleteBlogById', {
         method: 'GET',
         params
-
     });
-
 }
 
 export async function queryBlogsByYear(params: any) {
     return request('/app/blogs/findAllBlogsByYear', {
         method: 'GET',
         params
-
     });
+}
 
+export async function queryTypesAndTags(params: any) {
+    return request('/app/blogs/findAllTypesAndTags', {
+        method: 'GET',
+        params
+    });
 }

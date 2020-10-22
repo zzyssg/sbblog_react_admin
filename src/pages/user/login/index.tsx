@@ -34,6 +34,7 @@ const Login: React.FC<LoginProps> = (props) => {
   const { status, type: loginType } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState<string>('account');
+  const [errMag, setErrMsg] = useState();
 
   const handleSubmit = (values: LoginParamsType) => {
     const { dispatch } = props;
@@ -48,6 +49,7 @@ const Login: React.FC<LoginProps> = (props) => {
     }).then((res: any) => {
       if (res.retCode === '000') {
         message.error(res.retMsg);
+        setErrMsg(res.retMsg);
       }
     });
   };
@@ -55,7 +57,7 @@ const Login: React.FC<LoginProps> = (props) => {
     <div className={styles.main}>
       <LoginForm activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
         <Tab key="account"
-          // tab="账户密码登录"
+        // tab="账户密码登录"
         >
           {status === 'error' && loginType === 'account' && !submitting && (
             <LoginMessage content="账户或密码错误（admin/ant.design）" />
@@ -94,8 +96,8 @@ const Login: React.FC<LoginProps> = (props) => {
             忘记密码
           </a> */}
         </div>
-        <Submit loading={submitting}>登录</Submit>
-        {/* <div className={styles.other}>
+          <Submit loading={submitting}>登录</Submit>
+          {/* <div className={styles.other}>
           其他登录方式
           <AlipayCircleOutlined className={styles.icon} />
           <TaobaoCircleOutlined className={styles.icon} />
@@ -109,7 +111,7 @@ const Login: React.FC<LoginProps> = (props) => {
   );
 };
 
-export default connect(({ login, loading }: ConnectState) => ({
-  userLogin: login,
+export default connect(({ login, loading}: ConnectState) => ({
+        userLogin: login,
   submitting: loading.effects['login/login'],
 }))(Login);
