@@ -35,11 +35,11 @@ const Search = (props : any) => {
                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
             >
-                <Option value="1">日常</Option>
-                <Option value="2">哲学</Option>
-                <Option value="3++">历史</Option>
-                <Option value="4">冷知识</Option>
-                <Option value="5">科学</Option>
+                <Option value="1">日常12</Option>
+                <Option value="2">哲学12</Option>
+                <Option value="3++">历史12</Option>
+                <Option value="4">冷知识12</Option>
+                <Option value="5">科学1</Option>
             </Select>
         </div>
     );
