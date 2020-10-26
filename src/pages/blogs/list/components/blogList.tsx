@@ -8,6 +8,7 @@ import {connect} from 'umi';
 
 const BlogList = (props: any) => {
     const { dispatch } = props;
+    const { blogSource } = props;
 
     // const { confirm } = Modal;
     const [blogId, setBlogId] = useState();
@@ -142,7 +143,7 @@ const BlogList = (props: any) => {
             >
                 <p>正在进行删除博客的相关操作...</p>
             </Modal>
-            <Table bordered columns={columns} dataSource={dataSource} />
+            <Table bordered columns={columns} dataSource={blogSource ||  dataSource} />
         </div>
     )
 

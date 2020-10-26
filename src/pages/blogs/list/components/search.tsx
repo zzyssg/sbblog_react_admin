@@ -1,5 +1,7 @@
 import { Select, Card, Form, Row, Col, Button,  Input} from 'antd';
 import React from 'react';
+import {ConnectState} from '@/models/connect';
+import { connect } from 'umi';
 
 const { Option } = Select;
 
@@ -10,15 +12,18 @@ const formItem = {
 const Search = (props : any) => {
 
     const {dispatch} = props;
+    const {callback} = props;
 
     const onFinish = (values: any) => {
+        debugger
         if (dispatch) {
           dispatch({
             type: 'blogs/queryBlogVOsByCondition',
             payload: values,
           }).then((res: any) => {
               const dataSource = res.result || [];
-            setDataSource(dataSource);
+              callback(dataSource)
+            // setDataSource(dataSource);
           });
         }
       };
@@ -90,4 +95,7 @@ const Search = (props : any) => {
         </div>
     );
 }
-export default Search;
+
+export default connect(({ blogs }: ConnectState) => ({
+    blogs,
+  }))(Search);
