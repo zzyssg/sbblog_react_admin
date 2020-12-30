@@ -1,18 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Card, Select, Col, Row, Radio, message } from 'antd';
-import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/index.css';
+import 'braft-extensions/dist/color-picker.css';
+import 'braft-extensions/dist/code-highlighter.css';
+
+import React, { useState, useEffect } from 'react';
+import { Form, Input, Button, Card, Select, Col, Row, message } from 'antd';
+import ColorPicker from 'braft-extensions/dist/color-picker';
+import CodeHighlighter from 'braft-extensions/dist/code-highlighter';
+import Markdown from 'braft-extensions/dist/markdown';
+import BraftEditor from 'braft-editor';
 import { connect } from 'umi';
 import { BlogsState } from '@/models/blogs';
 import styles from './publish.less';
-import { queryTypesAndTags } from '@/services/blogs';
-import { set } from 'lodash';
+import 'prismjs/components/prism-java'
+import 'prismjs/components/prism-php'
 
 const { Option } = Select;
 
 const Publish = (props: any) => {
   // 编辑器state
-  const [editorState, setEditorState] = useState(BraftEditor.createEditorState(null));
+  const options = {
+    includeEditors : ['editor-1'],
+    theme: 'dark',
+    syntaxs: [
+      {
+        name: 'JavaScript',
+        syntax: 'javascript'
+      }, {
+        name: 'HTML',
+        syntax: 'html'
+      }, {
+        name: 'CSS',
+        syntax: 'css'
+      }, {
+        name: 'Java',
+        syntax: 'java',
+      }, {
+        name: 'PHP',
+        syntax: 'php'
+      }
+    ]
+  };
+
+  BraftEditor.use(CodeHighlighter(options));
+  BraftEditor.use(ColorPicker(options));
+  BraftEditor.use(Markdown(options));
+  const initialV = BraftEditor.createEditorState('xxx',{editorId : 'editor-1'});
+  const [editorState, setEditorState] = useState(initialV);
 
   const [types, setTypes] = useState<[]>();
 
@@ -42,6 +75,7 @@ const Publish = (props: any) => {
   };
 
   const handleEditorChange = () => {
+
     setEditorState(editorState);
   };
 
@@ -166,7 +200,7 @@ const Publish = (props: any) => {
             ]}
           >
             {/* <Input.Password /> */}
-            <BraftEditor value={editorState} onChange={handleEditorChange} onSave={submitContent} />
+            <BraftEditor value={initialV} onChange={handleEditorChange} onSave={submitContent} id="editor-1"/>
           </Form.Item>
         </Card>
         <Card>

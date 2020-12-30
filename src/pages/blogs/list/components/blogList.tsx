@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Table, Space, Modal, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { ConnectState } from '@/models/connect';
-import {connect} from 'umi';
+import { connect } from 'umi';
 
 
 
 const BlogList = (props: any) => {
     const { dispatch } = props;
-    const { blogSource } = props;
+    const { searchCondition } = props;
+    let { blogSource } = props;
+
 
     // const { confirm } = Modal;
     const [blogId, setBlogId] = useState();
@@ -55,7 +57,6 @@ const BlogList = (props: any) => {
             dataIndex: 'type',
             key: 'type',
             render: (text: any) => {
-                // debugger
                 return text.name;
             },
         },
@@ -80,7 +81,6 @@ const BlogList = (props: any) => {
             title: '操作',
             key: 'action',
             render: (text: any, record: any) => {
-                // debugger
                 return (
                     <Space>
                         {/* <a onClick={() => {linkToEdit(record)}}>编辑</a> */}
@@ -93,7 +93,7 @@ const BlogList = (props: any) => {
                             }}
                         >
                             删除
-            </a>
+                        </a>
                     </Space>
                 );
             },
@@ -117,14 +117,16 @@ const BlogList = (props: any) => {
                 if (res.retCode === '001') {
                     // 提示框：删除成功
                     message.success('删除成功!!!');
-                    // TODO 重新刷新表格数据
-                    if (dispatch) {
-                        dispatch({
-                            type: 'blogs/fetch',
-                        }).then((result: any) => {
-                            setDataSource(result.result || []);
-                        });
-                    }
+                    // TODO 重新刷新表格数据-按照查询条件
+                    debugger
+                    dispatch({
+                        type: 'blogs/queryBlogVOsByCondition',
+                        payload : searchCondition
+                    }).then((result: any) => {
+                        // blogSource已经存在，设为null使得查询到的dataSource生效
+                        blogSource = [];
+                        setDataSource(result.result || []);
+                    });
                 } else {
                     message.error('删除失败！！！');
                 }
@@ -143,7 +145,7 @@ const BlogList = (props: any) => {
             >
                 <p>正在进行删除博客的相关操作...</p>
             </Modal>
-            <Table bordered columns={columns} dataSource={blogSource ||  dataSource} />
+            <Table bordered columns={columns} dataSource={blogSource || dataSource} />
         </div>
     )
 
@@ -154,4 +156,4 @@ const BlogList = (props: any) => {
 // export default BlogList;
 export default connect(({ blogs }: ConnectState) => ({
     blogs,
-  }))(BlogList);
+}))(BlogList);

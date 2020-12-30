@@ -11,6 +11,9 @@ declare module '*.gif';
 declare module '*.bmp';
 declare module '*.tiff';
 declare module 'omit.js';
+declare module 'braft-extensions/dist/markdown';
+declare module 'braft-extensions/dist/code-highlighter';
+declare module 'braft-extensions/dist/color-picker';
 
 // google analytics interface
 interface GAFieldsObject {

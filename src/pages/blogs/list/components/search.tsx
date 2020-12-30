@@ -1,5 +1,5 @@
 import { Select, Card, Form, Row, Col, Button,  Input} from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import {ConnectState} from '@/models/connect';
 import { connect } from 'umi';
 
@@ -15,14 +15,15 @@ const Search = (props : any) => {
     const {callback} = props;
 
     const onFinish = (values: any) => {
-        debugger
         if (dispatch) {
           dispatch({
             type: 'blogs/queryBlogVOsByCondition',
             payload: values,
           }).then((res: any) => {
               const dataSource = res.result || [];
-              callback(dataSource)
+              const callbackObj = {blogList : dataSource,searchConditionValue : values};
+              debugger
+              callback(callbackObj)
             // setDataSource(dataSource);
           });
         }
@@ -46,12 +47,12 @@ const Search = (props : any) => {
           >
             <Row justify="space-between">
               <Col span={7}>
-                <Form.Item style={formItem} label="标题" name="title" rules={[{required : true, message : "请选择类型"}]}>
+                <Form.Item style={formItem} label="标题" name="title" >
                   <Input placeholder="请输入标题内容" />
                 </Form.Item>
               </Col>
               <Col span={7}>
-                <Form.Item style={formItem} label="分类" name="typeId" rules={[{required : true, message : "请选择分类"}]}>
+                <Form.Item style={formItem} label="分类" name="typeId" >
                   {/* <Search style={{ width: 600 }} /> */}
 
                   <Select allowClear placeholder="选择分类">
@@ -69,7 +70,6 @@ const Search = (props : any) => {
                   // {...tailLayout}
                   name="recommend"
                   valuePropName="checked"
-                  rules={[{required : true, message : "请选择类型"}]}
                 >
                   {/* <Checkbox >推荐</Checkbox> */}
                   <Select allowClear placeholder="是否推荐">

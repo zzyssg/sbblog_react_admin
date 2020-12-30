@@ -6,9 +6,13 @@ import BlogList from './components/blogList';
 const Blog = () => {
 
   const [blogs, setBlogs] = useState<[]>();
+  const [searchCondition, setSearchCondition] = useState<Object>();
 
-  const searchBlogs = (blogList : any) => {
+  const searchBlogs = (callbackObj : any) => {
+    const {blogList} = callbackObj;
+    const {searchConditionValue} = callbackObj;
     setBlogs(blogList);
+    setSearchCondition(searchConditionValue);
   }
 
   return (
@@ -16,7 +20,7 @@ const Blog = () => {
       <Card hoverable={false}>
         <Search callback={searchBlogs}/>
         <Card hoverable={false}>
-          <BlogList blogSource={blogs}/>
+          <BlogList blogSource={blogs} searchCondition={searchCondition}/>
         </Card>
       </Card>
     </div>

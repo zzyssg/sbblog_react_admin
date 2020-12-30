@@ -47,7 +47,9 @@ const Login: React.FC<LoginProps> = (props) => {
         // type
       },
     }).then((res: any) => {
-      if (res.retCode === '000') {
+      debugger
+      if (res.retCode !== '111111') {
+        debugger
         message.error(res.retMsg);
         setErrMsg(res.retMsg);
       }
